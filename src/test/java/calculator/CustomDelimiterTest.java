@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("커스텀 구분자 테스트")
 public class CustomDelimiterTest {
     @ParameterizedTest
     @ValueSource(strings = {"//!\\n1!2", "//@!\\n1@2!3", "//,:\\n1,2:3"})
