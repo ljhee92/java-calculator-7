@@ -1,4 +1,8 @@
-package calculator;
+package calculator.service;
+
+import calculator.model.CustomDelimiter;
+import calculator.model.DefaultDelimiter;
+import calculator.model.Delimiter;
 
 public class DelimiterService {
     private Delimiter delimiter;

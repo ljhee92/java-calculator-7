@@ -1,12 +1,13 @@
 package calculator;
 
+import calculator.config.AppConfig;
+import calculator.controller.CalculatorController;
+
 public class Application {
     public static void main(String[] args) {
-        InputView inputView = new InputView();
-        OutputView outputView = new OutputView();
-        DelimiterService delimiterService = new DelimiterService();
+        AppConfig appConfig = new AppConfig();
 
-        CalculatorController calculatorController = new CalculatorController(inputView, outputView, delimiterService);
+        CalculatorController calculatorController = appConfig.calculatorController();
         calculatorController.run();
     }
 }
