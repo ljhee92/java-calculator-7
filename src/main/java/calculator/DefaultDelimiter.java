@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DefaultDelimiter {
+public class DefaultDelimiter implements Delimiter {
     private final String input;
 
     private DefaultDelimiter(String input) {

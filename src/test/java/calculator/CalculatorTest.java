@@ -15,7 +15,9 @@ public class CalculatorTest {
     @DisplayName("쉼표(,)와 콜론(:)을 기준으로 구분하여 반환한 문자열을 모두 더한 값과 기대값이 동일한지 확인한다.")
     void plusByDefaultDelimiter(String input, int expected) {
         DefaultDelimiter delimiter = DefaultDelimiter.from(input);
-        assertThat(Calculator.getInstance().plus(delimiter.split())).isEqualTo(expected);
+        Numbers numbers = Numbers.from(delimiter.split());
+
+        assertThat(Calculator.getInstance().plus(numbers)).isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -24,6 +26,8 @@ public class CalculatorTest {
     @DisplayName("커스텀 구분자를 기준으로 구분하여 반환한 문자열을 모두 더한 값과 기대값이 동일한지 확인한다.")
     void plusByCustomDelimiter(String input, int expected) {
         CustomDelimiter delimiter = CustomDelimiter.from(input);
-        assertThat(Calculator.getInstance().plus(delimiter.split())).isEqualTo(expected);
+        Numbers numbers = Numbers.from(delimiter.split());
+
+        assertThat(Calculator.getInstance().plus(numbers)).isEqualTo(expected);
     }
 }

@@ -1,7 +1,5 @@
 package calculator;
 
-import java.util.List;
-
 public class Calculator {
     private static Calculator calculator;
 
@@ -14,7 +12,7 @@ public class Calculator {
         return calculator;
     }
 
-    public int plus(List<Integer> numbers) {
-        return numbers.stream().mapToInt(number -> number).sum();
+    public int plus(Numbers numbers) {
+        return numbers.getNumbers().stream().mapToInt(number -> number).sum();
     }
 }

@@ -3,14 +3,13 @@ package calculator;
 import java.util.Arrays;
 import java.util.List;
 
-public class CustomDelimiter {
+public class CustomDelimiter implements Delimiter {
     private List<String> delimiters;
     private String numeric;
 
     private CustomDelimiter(String input) {
         validateFormat(input);
         containsCustomDelimiter(input);
-        containsCustomDelimiterInNumeric(input);
     }
 
     public static CustomDelimiter from(String input) {
@@ -31,15 +30,7 @@ public class CustomDelimiter {
         }
 
         this.delimiters = Arrays.asList(customDelimiter.split(""));
-    }
-
-    private void containsCustomDelimiterInNumeric(String input) {
         this.numeric = input.substring(input.indexOf("\\n")).replace("\\n", "");
-        System.out.println(numeric);
-
-        if (!(delimiters.stream().allMatch(numeric::contains))) {
-            throw new IllegalArgumentException("계산식에 커스텀 구분자 포함 안 됨");
-        }
     }
 
     public List<Integer> split() {
