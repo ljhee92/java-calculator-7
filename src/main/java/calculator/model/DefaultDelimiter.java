@@ -1,46 +1,34 @@
 package calculator.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class DefaultDelimiter implements Delimiter {
-    private final String input;
-
+public class DefaultDelimiter extends Delimiter {
     private DefaultDelimiter(String input) {
-        containsCommaAndColon(input);
-        this.input = input;
+        super(input);
     }
 
     public static DefaultDelimiter from(String input) {
         return new DefaultDelimiter(input);
     }
 
-    private void containsCommaAndColon(String input) {
+    @Override
+    protected void validateFormat(String input) {
         if (!input.contains(",") && !input.contains(":")) {
-            throw new IllegalArgumentException("쉼표 또는 콜론 가지고 있지 않음");
+            throw new IllegalArgumentException("기본 구분자는 쉼표 또는 콜론 가져야 함");
         }
     }
 
-    public List<Integer> split() {
-        if (input.contains(",") && !input.contains(":")) {
-            return Arrays.stream(input.split(",")).mapToInt(Integer::parseInt).boxed().toList();
-        }
+    @Override
+    protected void initialize(String input) {
+        setDelimiters();
+        setNumeric(input);
+    }
 
-        if (input.contains(":") && !input.contains(",")) {
-            return Arrays.stream(input.split(":")).mapToInt(Integer::parseInt).boxed().toList();
-        }
+    private void setDelimiters() {
+        this.delimiters = List.of(",", ":");
+    }
 
-        String[] splitByComma = input.split(",");
-        List<Integer> result = new ArrayList<>();
-        for (String splittedString : splitByComma) {
-            if (splittedString.contains(":")) {
-                String[] splitByColon = splittedString.split(":");
-                Arrays.stream(splitByColon).forEach(string -> result.add(Integer.parseInt(string)));
-                continue;
-            }
-            result.add(Integer.parseInt(splittedString));
-        }
-        return result;
+    private void setNumeric(String input) {
+        this.numeric = input;
     }
 }

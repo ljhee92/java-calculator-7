@@ -17,7 +17,7 @@ public class Numbers {
     }
 
     private void validateRange(List<Integer> numbers) {
-        if (numbers.stream().anyMatch(number -> number <= 0)) {
+        if (numbers.stream().anyMatch(number -> number < 0)) {
             throw new IllegalArgumentException("양수여야 함");
         }
     }

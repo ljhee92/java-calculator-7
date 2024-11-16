@@ -1,41 +1,44 @@
 package calculator.model;
 
 import java.util.Arrays;
-import java.util.List;
 
-public class CustomDelimiter implements Delimiter {
-    private List<String> delimiters;
-    private String numeric;
-
+public class CustomDelimiter extends Delimiter {
     private CustomDelimiter(String input) {
-        validateFormat(input);
-        containsCustomDelimiter(input);
+        super(input);
     }
 
     public static CustomDelimiter from(String input) {
         return new CustomDelimiter(input);
     }
 
-    private void validateFormat(String input) {
+    @Override
+    protected void validateFormat(String input) {
         if (!(input.startsWith("//") && input.contains("\\n"))) {
             throw new IllegalArgumentException("커스텀 구분자 형식 잘못 입력함");
         }
     }
 
-    private void containsCustomDelimiter(String input) {
-        String customDelimiter = input.substring(0, input.indexOf("\\n")).replaceAll("//", "");
+    @Override
+    protected void initialize(String input) {
+        String customDelimiters = input.substring(0, input.indexOf("\\n")).replaceAll("//", "");
 
-        if (customDelimiter.isBlank()) {
+        if (customDelimiters.isBlank()) {
             throw new IllegalArgumentException("커스텀 구분자 입력 안 함");
         }
 
-        this.delimiters = Arrays.asList(customDelimiter.split(""));
-        this.numeric = input.substring(input.indexOf("\\n")).replace("\\n", "");
+        if (customDelimiters.matches("[0-9]")) {
+            throw new IllegalArgumentException("숫자는 안 됨");
+        }
+
+        setDelimiters(customDelimiters);
+        setNumeric(input);
     }
 
-    public List<Integer> split() {
-        delimiters.forEach(delimiter -> this.numeric = numeric.replace(delimiter, " "));
+    private void setDelimiters(String customDelimiter) {
+        this.delimiters = Arrays.asList(customDelimiter.split(""));
+    }
 
-        return Arrays.stream(numeric.split(" ")).mapToInt(Integer::parseInt).boxed().toList();
+    private void setNumeric(String input) {
+        this.numeric = input.substring(input.indexOf("\\n")).replace("\\n", "");
     }
 }
