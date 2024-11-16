@@ -1,6 +1,7 @@
 package calculator.model;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("기본 구분자 테스트")
 public class DefaultDelimiterTest {
@@ -18,6 +20,14 @@ public class DefaultDelimiterTest {
     @DisplayName("쉼표(,) 또는 콜론(:)을 가지고 있는 문자열인지 확인한다.")
     void containsCommaAndColon(String input) {
         assertThat(DefaultDelimiter.from(input)).isInstanceOf(DefaultDelimiter.class);
+    }
+
+    @Test
+    @DisplayName("쉼표(,) 또는 콜론(:)을 가지고 있지 않다면 예외가 발생한다.")
+    void invalidDefaultDelimiter() {
+        assertThatThrownBy(() -> {
+            DefaultDelimiter.from("1;2;3");
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest
@@ -39,7 +49,8 @@ public class DefaultDelimiterTest {
                 Arguments.of("1,2,3:4", List.of(1, 2, 3, 4)),
                 Arguments.of("1,2:3:4", List.of(1, 2, 3, 4)),
                 Arguments.of("1:2,3,4", List.of(1, 2, 3, 4)),
-                Arguments.of("1:2:3,4", List.of(1, 2, 3, 4))
+                Arguments.of("1:2:3,4", List.of(1, 2, 3, 4)),
+                Arguments.of("1::3,4", List.of(1, 0, 3, 4))
         );
     }
 }
