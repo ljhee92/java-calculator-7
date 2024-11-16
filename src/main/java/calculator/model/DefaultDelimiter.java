@@ -1,5 +1,8 @@
 package calculator.model;
 
+import calculator.constant.Delimiters;
+import calculator.constant.ErrorMessage;
+
 import java.util.List;
 
 public class DefaultDelimiter extends Delimiter {
@@ -13,8 +16,9 @@ public class DefaultDelimiter extends Delimiter {
 
     @Override
     protected void validateFormat(String input) {
-        if (!input.contains(",") && !input.contains(":")) {
-            throw new IllegalArgumentException("기본 구분자는 쉼표 또는 콜론 가져야 함");
+        if (!(input.contains(Delimiters.DEFAULT_COMMA.getDelimiter())
+                || input.contains(Delimiters.DEFAULT_COLON.getDelimiter()))) {
+            throw new IllegalArgumentException(ErrorMessage.DEFAULT_DELIMITER_IS_COMMA_OR_COLON.getMessage());
         }
     }
 
@@ -25,7 +29,7 @@ public class DefaultDelimiter extends Delimiter {
     }
 
     private void setDelimiters() {
-        this.delimiters = List.of(",", ":");
+        this.delimiters = List.of(Delimiters.DEFAULT_COMMA.getDelimiter(), Delimiters.DEFAULT_COLON.getDelimiter());
     }
 
     private void setNumeric(String input) {

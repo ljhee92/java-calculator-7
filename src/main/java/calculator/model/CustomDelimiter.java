@@ -1,5 +1,8 @@
 package calculator.model;
 
+import calculator.constant.Delimiters;
+import calculator.constant.ErrorMessage;
+
 import java.util.Arrays;
 
 public class CustomDelimiter extends Delimiter {
@@ -13,25 +16,31 @@ public class CustomDelimiter extends Delimiter {
 
     @Override
     protected void validateFormat(String input) {
-        if (!(input.startsWith("//") && input.contains("\\n"))) {
-            throw new IllegalArgumentException("커스텀 구분자 형식 잘못 입력함");
+        if (!(input.startsWith(Delimiters.CUSTOM_START.getDelimiter())
+                && input.contains(Delimiters.CUSTOM_END.getDelimiter()))) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_CUSTOM_DELIMITER_FORMAT.getMessage());
         }
     }
 
     @Override
     protected void initialize(String input) {
-        String customDelimiters = input.substring(0, input.indexOf("\\n")).replaceAll("//", "");
+        String customDelimiters = input.substring(0, input.indexOf(Delimiters.CUSTOM_END.getDelimiter()))
+                .replaceAll(Delimiters.CUSTOM_START.getDelimiter(), "");
 
-        if (customDelimiters.isBlank()) {
-            throw new IllegalArgumentException("커스텀 구분자 입력 안 함");
-        }
-
-        if (customDelimiters.matches("[0-9]")) {
-            throw new IllegalArgumentException("숫자는 안 됨");
-        }
+        validateCustomDelimiters(customDelimiters);
 
         setDelimiters(customDelimiters);
         setNumeric(input);
+    }
+
+    private void validateCustomDelimiters(String customDelimiters) {
+        if (customDelimiters.isBlank()) {
+            throw new IllegalArgumentException(ErrorMessage.CUSTOM_DELIMITER_MUST_FILL.getMessage());
+        }
+
+        if (customDelimiters.matches("[0-9]")) {
+            throw new IllegalArgumentException(ErrorMessage.NUMBERS_CANNOT_BE_CUSTOM_DELIMITER.getMessage());
+        }
     }
 
     private void setDelimiters(String customDelimiter) {
@@ -39,6 +48,7 @@ public class CustomDelimiter extends Delimiter {
     }
 
     private void setNumeric(String input) {
-        this.numeric = input.substring(input.indexOf("\\n")).replace("\\n", "");
+        this.numeric = input.substring(input.indexOf(Delimiters.CUSTOM_END.getDelimiter()))
+                .replace(Delimiters.CUSTOM_END.getDelimiter(), "");
     }
 }

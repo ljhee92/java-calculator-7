@@ -1,5 +1,7 @@
 package calculator.model;
 
+import calculator.constant.ErrorMessage;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +20,7 @@ public class Numbers {
 
     private void validateRange(List<Integer> numbers) {
         if (numbers.stream().anyMatch(number -> number < 0)) {
-            throw new IllegalArgumentException("양수여야 함");
+            throw new IllegalArgumentException(ErrorMessage.ONLY_CALCULATE_POSITIVE_NUMBERS.getMessage());
         }
     }
 

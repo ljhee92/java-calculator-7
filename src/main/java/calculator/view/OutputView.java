@@ -1,7 +1,11 @@
 package calculator.view;
 
-public class OutputView {
+import calculator.util.OutputWriter;
+
+public class OutputView implements OutputWriter {
+    private static final String RESULT_IS = "결과 : ";
+    
     public void displayResult(int result) {
-        System.out.println("결과 : " + result);
+        displayMessage(RESULT_IS + result);
     }
 }

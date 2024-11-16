@@ -1,5 +1,7 @@
 package calculator.model;
 
+import calculator.constant.Delimiters;
+
 import java.util.List;
 
 public class NoneDelimiter extends Delimiter {
@@ -17,7 +19,7 @@ public class NoneDelimiter extends Delimiter {
 
     @Override
     protected void initialize(String input) {
-        this.delimiters = List.of(" ");
+        this.delimiters = List.of(Delimiters.NONE.getDelimiter());
         this.numeric = input;
     }
 }
